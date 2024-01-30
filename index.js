@@ -20,7 +20,7 @@ function addRoom() {
                 number = prompt("Invalid entry. Please enter room number (100-530)");
             } while(number.length < 3 || number.length > 3 || number < 100 || number > 530);}
     floor = number.toString[0];
-    bed = prompt("Queen or King Bed?");
+    bed = prompt("Queen or King bed?");
     let isSmoking = prompt("Smoking/Non-Smoking?");
         if(isSmoking.toLowerCase !== "smoking" && isSmoking.toLowerCase !== "non-smoking") {
             do{
