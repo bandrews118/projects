@@ -16,56 +16,56 @@ const UserActions = {
 	Quit: 4,
 };
 
-// TODO OPTIONAL - Maybe convert these to string representations?
-// i.e. instead of 1,2,3 for bed, maybe Full, Queen, King ?
 // DONE - Implemented switch case to convert integer input
 // to a string during construction.
 class Room {
 	constructor(number, floor, bed, smoking) {
 		this.roomNumber = number;
-		
-        this.roomFloor = floor;
-		
-        switch (parseInt(bed)) {
+
+		this.roomFloor = floor;
+
+		switch (parseInt(bed)) {
 			case 1:
-			this.roomBed = "Queen";
-			break;
+				this.roomBed = "Queen";
+				break;
 			case 2:
-			this.roomBed = "King";
-			break;
+				this.roomBed = "King";
+				break;
 			case 3:
-			this.roomBed = "Double";
-			break;	
+				this.roomBed = "Double";
+				break;
 		}
-		
-        switch (parseInt(smoking)) {
+
+		switch (parseInt(smoking)) {
 			case 1:
-                this.roomSmoke = "Yes";
-                break;
+				this.roomSmoke = "Yes";
+				break;
 			default:
-                this.roomSmoke = "No";
+				this.roomSmoke = "No";
 		}
-        
+
 		this.roomOccupied = false;
 	}
 
 	toString = () => {
-		return this.roomNumber +
-		this.roomFloor +
-		this.roomBed +
-		this.roomSmoke +
-		this.roomOccupied;
+		var string1 = "Room Number: " + this.roomNumber;
+		var string2 = "\nFloor: " + this.roomFloor;
+		var string3 = "\nBed: " + this.roomBed;
+		var string4 = "\nSmoking?: " + this.roomSmoke;
+		var string5 = "\nOccupied?: " + this.roomOccupied;
+
+		return string1 + string2 + string3 + string4 + string5;
 	};
 }
 
 /**
  * The main program, currently a hotel app.
  */
-async function main() {
+function main() {
 	var roomList = [];
-    
-    populate(roomList);
-    roomList.sort;
+
+	populate(roomList);
+	roomList.sort();
 
 	// Ryker: Try and stick with only one variable to process user input
 	var userIn = UserActions.MainMenu;
@@ -79,14 +79,14 @@ async function main() {
 				break;
 			case UserActions.DeleteRoom:
 				userDeleteRoom(roomList);
-                userIn = doneCheck(userIn);
+				userIn = doneCheck(userIn);
 				break;
 			/** TODO - Create a case to display all the rooms in the hotel.
 				Try not to use console.log for this. 
 				TODO - Format it to display ammenities and occupancy */
 			// https://www.w3schools.com/js/tryit.asp?filename=tryjs_output_alert
 			case UserActions.ShowRoom:
-				showRoomList(roomList, roomNumbers);
+				showRoomList(roomList);
 				userIn = doneCheck(userIn);
 				break;
 			case UserActions.MainMenu:
@@ -113,7 +113,7 @@ function getNewRoomFromUser() {
 		number = prompt("Please enter a room number (100-530)");
 		number = parseInt(number);
 	} while (number < 100 || number > 530);
-    
+
 	floor = Math.floor(number / 100);
 
 	do {
@@ -170,31 +170,33 @@ function userDeleteRoom(roomList) {
 	window.alert("Room not found!");
 }
 
-// Check if a user is done performing an action. If they respond with 1, they return to the 
+// Check if a user is done performing an action. If they respond with 1, they return to the
 // current case. If they respond 2, they are returned to the main menu.
 function doneCheck(userIn) {
-    let repeatAction;
-	
-    do {
+	let repeatAction;
+
+	do {
 		switch (parseInt(userIn)) {
 			case 1:
 				repeatAction = parseInt(prompt("Add another room?\n1 - Yes\n2 - No"));
 				break;
 			case 2:
-				repeatAction = parseInt(prompt("Delete another room??\n1 - Yes\n2 - No"));
+				repeatAction = parseInt(
+					prompt("Delete another room??\n1 - Yes\n2 - No")
+				);
 				break;
 			case 3:
-				repeatAction = parseInt(prompt(
-					"Display rooms again for some reason?\n1 - Yes\n2 - No"));
+				repeatAction = parseInt(
+					prompt("Display rooms again for some reason?\n1 - Yes\n2 - No")
+				);
 				break;
 		}
-	// UPDATE THIS AS NEW FUNCTIONS ARE ADDED
+		// UPDATE THIS AS NEW FUNCTIONS ARE ADDED
 	} while (repeatAction < 1 || repeatAction > 3);
-	
-    if(repeatAction === 2) {
+
+	if (repeatAction === 2) {
 		return UserActions.MainMenu;
-    }
-	else {
+	} else {
 		return userIn;
 	}
 }
@@ -202,26 +204,26 @@ function doneCheck(userIn) {
 // Display the currently available rooms in roomList
 // TODO - Modify to show ammenities
 function showRoomList(roomList) {
-	let listedRoomNumbers = roomList.map(room => room.roomNumber);
+	let listedRoomNumbers = roomList.map((room) => room.roomNumber);
 	console.log(listedRoomNumbers);
-	
+
 	if (listedRoomNumbers.length === 0) {
 		window.alert("No rooms to display!");
 		return;
 	}
-	
+
 	window.alert("Currently Available Rooms:\n" + listedRoomNumbers);
-	
+
 	let roomSelect = parseInt(prompt("Choose a Room:"));
-    
-	for(var i = 0; i < listedRoomNumbers.length; i++) {
+
+	for (var i = 0; i < listedRoomNumbers.length; i++) {
 		if (parseInt(roomSelect) == parseInt(listedRoomNumbers[i])) {
 			window.alert(roomList[i]);
 			return;
-		} 
+		}
 	}
-	
-	window.alert("Room not found!")
+
+	window.alert("Room not found!");
 	return;
 }
 
@@ -229,10 +231,15 @@ function showRoomList(roomList) {
 // random amenities.
 // REMOVE BEFORE RELEASE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function populate(roomList) {
-    for(let i = 0; i < 431; i++) {
-        var newRoom = new Room(i+100, Math.floor((i+100)/100), (Math.floor(Math.random() * 3)) + 1, (Math.floor(Math.random()) * 2) + 1);
-        roomList.push(newRoom);
-    }
+	for (let i = 0; i < 531; i++) {
+		var newRoom = new Room(
+			i + 100,
+			Math.floor((i + 100) / 100),
+			Math.floor(Math.random() * 3) + 1,
+			Math.floor(Math.random()) * 2 + 1
+		);
+		roomList.push(newRoom);
+	}
 }
 
 main();
