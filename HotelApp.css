@@ -1,7 +1,9 @@
+/* You shouldn't need to mess with this yet */
 #textWindow {
-    width: 400px;
-    height:300px;
+    width: 800px;
+    height: 300px;
     border: 2px solid black;
+    white-space: pre-wrap;
 }
 
 #textInput {

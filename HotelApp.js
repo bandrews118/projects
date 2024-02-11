@@ -1,5 +1,6 @@
 import { Room, getNewRoomFromUser, userDeleteRoom } from "./RoomList.js";
 import { Guests, checkIn, showRoomList, populate } from "./GuestHandling.js";
+import { HotelStrings } from "./StringConstants.js";
 
 // Ryker: This is a javascript "enum" it maps constants like 0, 1, 2
 // to more concrete actions. Instead of saying
@@ -50,18 +51,10 @@ function main() {
 			case UserActions.MainMenu:
 			// Fall through to the default case, which is also MainMenu
 			default:
-				userIn = parseInt(
-					prompt(
-						"Welcome to Hotel Lotus!\n1 - Add Room\n" +
-							"2 - Delete Room\n" +
-							"3 - Display Rooms\n" +
-							"4 - Check In\n" +
-							"5 - Exit"
-					)
-				);
+				userIn = parseInt(prompt(HotelMenuStrings.MainMenu));
 		}
 	} while (userIn != UserActions.Quit);
-	window.alert("Thank you for staying with us! Goodbye!");
+	window.alert(HotelMenuString.Goodbye);
 }
 
 // Check if a user is done performing an action. If they respond with 1, they return to the
@@ -100,13 +93,47 @@ function doneCheck(userIn) {
 	}
 }
 
+/**
+ * Important note: text is what an element is displaying, i.e. on textWindow
+ * it's initial text value is TODO
+ * But .val is to grab the value of an input, in our case things like what the user has
+ * typed into userInput.
+ * text is static text, .val is dynamic and changed by the user usually.
+ */
+function setTextWindow(text) {
+	$("#textWindow").text(text);
+}
+
+function onSubmitInput() {
+	const userInput = $("#userInput").val().toLowerCase();
+	// TODO - implement the other cases
+	if (parseInt(userInput) === UserActions.Quit || userInput === "quit") {
+		setTextWindow(HotelStrings.Menus.GoodBye);
+	}
+}
+
+/**
+ * This function is where we're going to attach our javascript code to the html of the page
+ * $("...") is the jquery selector syntax, which is how you grab the html elements
+ * For example, $("#textWindow") means grab the html element with the id (# is the id symbol) textWindow
+ * Then there are functions for updating and manipulating them, or pieces you can override.
+ */
 function myOnLoad() {
 	// attach functions to html here
-	$("#startMain").click(() => {
-		main();
+
+	// Set Initial Screen
+	setTextWindow(HotelStrings.Menus.MainMenu);
+
+	$("#submitInput").click(onSubmitInput);
+
+	$("#userInput").on("keypress", (e) => {
+		// 13 == enterKey
+		if (e.which === 13) {
+			onSubmitInput();
+		}
 	});
 }
 
 window.onload = myOnLoad;
 
-main();
+// main();
