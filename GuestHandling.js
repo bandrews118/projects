@@ -14,45 +14,6 @@ export class Guests {
 	};
 }
 
-// Display the currently available rooms in roomList
-export function showRoomList(roomList) {
-	let listedRoomNumbers = roomList.map((room) => room.roomNumber);
-
-	if (listedRoomNumbers.length === 0) {
-		window.alert("No rooms to display!");
-		return;
-	}
-
-	window.alert("Currently Available Rooms:\n" + listedRoomNumbers);
-
-	let roomSelect = parseInt(prompt("Choose a Room:"));
-
-	for (var i = 0; i < listedRoomNumbers.length; i++) {
-		if (parseInt(roomSelect) == parseInt(listedRoomNumbers[i])) {
-			window.alert(roomList[i]);
-			return;
-		}
-	}
-
-	window.alert("Room not found!");
-	return;
-}
-
-// Create a random assortment of rooms to fill the hotel, including
-// random amenities.
-// REMOVE BEFORE RELEASE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-export function populate(roomList) {
-	for (let i = 0; i < 531; i++) {
-		var newRoom = new Room(
-			i + 100,
-			Math.floor((i + 100) / 100),
-			Math.floor(Math.random() * 3) + 1,
-			Math.floor(Math.random()) * 2 + 1
-		);
-		roomList.push(newRoom);
-	}
-}
-
 export function checkIn(guestList, roomList) {
 	let suffix, firstName, lastName;
 
@@ -66,6 +27,5 @@ export function checkIn(guestList, roomList) {
 	var newGuest = new Guests(suffix, firstName, lastName);
 
 	guestList.push(newGuest);
-	showRoomList;
 	return;
 }

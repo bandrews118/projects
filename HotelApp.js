@@ -1,5 +1,11 @@
-import { Room, getNewRoomFromUser, userDeleteRoom } from "./RoomList.js";
-import { Guests, checkIn, showRoomList, populate } from "./GuestHandling.js";
+import {
+	Room,
+	getNewRoomFromUser,
+	userDeleteRoom,
+	showRoomList,
+	populate,
+} from "./RoomHandling.js";
+import { Guests, checkIn } from "./GuestHandling.js";
 
 // Ryker: This is a javascript "enum" it maps constants like 0, 1, 2
 // to more concrete actions. Instead of saying
@@ -24,33 +30,31 @@ function main() {
 	var guestList = [];
 
 	//populate(roomList);
-
-	// Ryker: Try and stick with only one variable to process user input
-	var userIn = UserActions.MainMenu;
+	var currentState = UserActions.MainMenu;
 
 	do {
-		switch (userIn) {
+		switch (currentState) {
 			case UserActions.AddRoom:
 				roomList.push(getNewRoomFromUser());
-				userIn = doneCheck(userIn);
+				currentState = doneCheck(currentState);
 				roomList.sort();
 				break;
 			case UserActions.DeleteRoom:
 				userDeleteRoom(roomList);
-				userIn = doneCheck(userIn);
+				currentState = doneCheck(currentState);
 				break;
 			case UserActions.ShowRoom:
 				showRoomList(roomList);
-				userIn = doneCheck(userIn);
+				currentState = doneCheck(currentState);
 				break;
 			case UserActions.CheckIn:
 				checkIn(guestList, roomList);
-				userIn = doneCheck(userIn);
+				currentState = doneCheck(currentState);
 				break;
 			case UserActions.MainMenu:
 			// Fall through to the default case, which is also MainMenu
 			default:
-				userIn = parseInt(
+				currentState = parseInt(
 					prompt(
 						"Welcome to Hotel Lotus!\n1 - Add Room\n" +
 							"2 - Delete Room\n" +
@@ -60,17 +64,17 @@ function main() {
 					)
 				);
 		}
-	} while (userIn != UserActions.Quit);
+	} while (currentState != UserActions.Quit);
 	window.alert("Thank you for staying with us! Goodbye!");
 }
 
 // Check if a user is done performing an action. If they respond with 1, they return to the
 // current case. If they respond 2, they are returned to the main menu.
-function doneCheck(userIn) {
+function doneCheck(currentState) {
 	let repeatAction;
 
 	do {
-		switch (parseInt(userIn)) {
+		switch (parseInt(currentState)) {
 			case 1:
 				repeatAction = parseInt(prompt("Add another room?\n1 - Yes\n2 - No"));
 				break;
@@ -96,7 +100,7 @@ function doneCheck(userIn) {
 	if (repeatAction === 2) {
 		return UserActions.MainMenu;
 	} else {
-		return userIn;
+		return currentState;
 	}
 }
 

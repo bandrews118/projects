@@ -1,33 +1,53 @@
+const BedSize = {
+	Queen: 1,
+	King: 2,
+	Double: 3,
+};
+
+const UserActions = {
+	CanSmoke: 1,
+	CannotSmoke: 2,
+};
+
 export class Room {
 	constructor(number, floor, bed, smoking) {
+		const UserBed = {
+			Queen: 1,
+			King: 2,
+			Double: 3,
+		};
+
+		const UserSmoke = {
+			Yes: 1,
+			No: 2,
+		};
+
 		this.roomNumber = number;
 
 		this.roomFloor = floor;
 
 		switch (parseInt(bed)) {
-			case 1:
+			case UserBed.Queen:
 				this.roomBed = "Queen";
 				break;
-			case 2:
+			case UserBed.King:
 				this.roomBed = "King";
 				break;
-			case 3:
+			case UserBed.Double:
 				this.roomBed = "Double";
 				break;
 		}
 
 		switch (parseInt(smoking)) {
-			case 1:
+			case UserSmoke.Yes:
 				this.roomSmoke = "Yes";
 				break;
-			default:
+			case UserSmoke.No:
 				this.roomSmoke = "No";
 		}
 
 		this.roomOccupied = false;
-		if (this.roomOccupied == false) {
-			this.roomOccupants = "N/A";
-		}
+		this.roomOccupants = "N/A";
 	}
 
 	toString = () => {
@@ -104,4 +124,43 @@ export function userDeleteRoom(roomList) {
 	// We let the userDeleteRoom method run all the way to its default return
 	// and do a console log.
 	window.alert("Room not found!");
+}
+
+// Display the currently available rooms in roomList
+export function showRoomList(roomList) {
+	let listedRoomNumbers = roomList.map((room) => room.roomNumber);
+
+	if (listedRoomNumbers.length === 0) {
+		window.alert("No rooms to display!");
+		return;
+	}
+
+	window.alert("Currently Available Rooms:\n" + listedRoomNumbers);
+
+	let roomSelect = parseInt(prompt("Choose a Room:"));
+
+	for (var i = 0; i < listedRoomNumbers.length; i++) {
+		if (parseInt(roomSelect) == parseInt(listedRoomNumbers[i])) {
+			window.alert(roomList[i]);
+			return;
+		}
+	}
+
+	window.alert("Room not found!");
+	return;
+}
+
+// Create a random assortment of rooms to fill the hotel, including
+// random amenities.
+// REMOVE BEFORE RELEASE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+export function populate(roomList) {
+	for (let i = 0; i < 531; i++) {
+		var newRoom = new Room(
+			i + 100,
+			Math.floor((i + 100) / 100),
+			Math.floor(Math.random() * 3) + 1,
+			Math.floor(Math.random()) * 2 + 1
+		);
+		roomList.push(newRoom);
+	}
 }
